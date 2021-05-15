@@ -117,3 +117,135 @@ class polinom:
     def new_pol(self,value):
         out = polinom(value.coef,self.n_long)
         return out
+
+    
+class precoder:
+
+    def __init__(self,t):
+        """
+        Принимает длинну информационной последовательности
+        """
+        self.t = t
+
+
+    def long_cut(self,mas):
+        """
+        Нарезает длинный битовый массиф на кусочки для кодирования
+        Вход:
+        mas - длинный массив 
+        t - число информационных символов в кодовой системе
+        Вывод:
+        Массив массивов нужных длинн
+        """
+        long_ost = len(mas) % self.t
+
+        if long_ost != 0:
+            dop = np.zeros((self.t - long_ost),int)
+            mas = np.concatenate((mas,dop),0)
+
+        num = len(mas) / self.t
+        return np.split(mas,num)
+
+    def long_cutoff(self,mas,chek_stop):
+        """
+        Фуекция преднозначена для отсечки лишних символов секретного сообщения
+        Вход:
+        mas - длинная последовательность 
+        chek_stop - когда эта последовательность найдена работа прекращается
+        Выход:
+        out - Укороченный масиив кодовых символов
+
+        """
+        long_mas = self.long_cut(mas)
+        out = []
+        for i in long_mas:
+            if (sum(i == chek_stop)/self.t) > 0.95:
+                break
+            out.append(i)
+        return out
+
+    def scotch_global(value):
+        """Универсальная функция склеивания"""
+        out = np.array([],int)
+        for i in value:
+            out = np.concatenate((out,i),0)
+        return out
+                
+
+class ecc_strem:
+    #параметры кода 
+    g_x = None #Пораждающий полином 
+    n_cod = 0 #Длинна блока 
+    k_cod = 0 #Длинна информационной последовательности 
+    t_cod = 0 #Число испровляемых ошибок. 
+    
+    def __init__(self,n,k,t):
+        """
+        Инициализирует поток кодирования
+        Принимает 3 параметра кода:
+        n - длинна блока 
+        k - число информационных символов 
+        t - число исправляемых ошибок 
+        Внимание! Код должен существовать в библиотеке!
+        """
+        self.n_cod = n
+        self.k_cod = k
+        self.t_cod = t
+        
+        vrem = str(n) + "_" + str(k) + "_" + str(t)
+        self.g_x = polinom(dec_to_bin(lib_g_x[vrem]),self.n_cod)
+        
+        
+    def coding_work(self,mas_in):
+        """
+        Основной рабочий цикл кодирования 
+        Вход - битовый массив из прекодера. 
+        Выход - закодированный массив 
+        """
+        
+        return np.array([self.coding_blok(x) for x in mas_in])
+    
+    def coding_blok(self,value):
+        """
+        Кодировник одного блока 
+        Вход - Информационная последовательность
+        Выход - Кодированное слово 
+        """
+        u_cod = polinom(value,self.n_cod)
+        out = u_cod * self.g_x
+        return out.main_mas
+    
+    
+    def decoding_work(self,mas_in):
+        """
+        Основной цикл декодирования
+        Вход - нарезанная битовая последовательность
+        Выход - массив полиномов 
+        """
+        return np.array([self.decoding_blok(x) for x in mas_in])
+    
+       
+    def decoding_blok(self,value):
+        """
+        Декодирование одного блока с исправлением ошибок
+        Вход - массив коэфицентов длинной N
+        Выход - полином длинной K
+        """
+        n = 0
+        work_p = polinom(value,self.n_cod)
+        ost = work_p % self.g_x
+        
+        if sum(ost.main_mas) != 0:       
+            while self.t_cod < sum(ost.main_mas):
+                n += 1
+                work_p = work_p << 1
+                ost = work_p % self.g_x
+                
+                if n > self.n_cod: 
+                    break
+                
+            work_p = work_p + ost
+            work_p = work_p >> n
+             
+        long_pol = work_p / self.g_x
+        return polinom(long_pol.main_mas[(self.n_cod - self.k_cod):],self.k_cod).main_mas
