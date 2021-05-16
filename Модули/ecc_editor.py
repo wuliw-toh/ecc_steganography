@@ -1,4 +1,40 @@
 import numpy as np
+import ecc_library as e_lib
+
+#общие функции
+def dec_to_bin(value):
+    """
+    Вход - число типа int(10)
+    Выход - Массив numpy в бинарном формате
+    Дополнение. Если формат не DEC то можно пользоваться встроенной записью
+    Для OCT - 0o.....
+    Для HEX - 0x.....
+    """
+    vrem = bin(value)[2:]
+    return np.array([int(x) for x in vrem])
+
+
+def bin_to_dec(self,value):
+    """
+    Вход - Массив numpy бинарного формата
+    Выход - Число int(10)
+    """
+    work_mas = np.flip(value)
+    out = 0
+    for i in range(len(work_mas)):
+        if work_mas[i] == 1:
+            out += 2**i
+    return out
+
+def scotch_global(value):
+    """Универсальная функция склеивания"""
+    out = np.array([],int)
+    for i in value:
+        out = np.concatenate((out,i),0)
+    return out
+
+
+
 
 class FailBin: 
     """Класс для специфической работы с файлами"""
@@ -164,13 +200,6 @@ class precoder:
                 break
             out.append(i)
         return out
-
-    def scotch_global(value):
-        """Универсальная функция склеивания"""
-        out = np.array([],int)
-        for i in value:
-            out = np.concatenate((out,i),0)
-        return out
                 
 
 class ecc_strem:
@@ -194,9 +223,8 @@ class ecc_strem:
         self.t_cod = t
         
         vrem = str(n) + "_" + str(k) + "_" + str(t)
-        self.g_x = polinom(dec_to_bin(lib_g_x[vrem]),self.n_cod)
-        
-        
+        self.g_x = polinom(dec_to_bin(e_lib.lib_g_x[vrem]),self.n_cod)
+    
     def coding_work(self,mas_in):
         """
         Основной рабочий цикл кодирования 
@@ -268,7 +296,7 @@ class ecc_editor:
         precod = precoder(self.k)  
         mas_word = precod.long_cut(fail.read_bin())        
         out =  self.ecc_work.coding_work(mas_word)
-        return precod.scotch_global(out)
+        return scotch_global(out)
     
     def decoding_work(self,long_bin):
         """Принимает длинную кодовую комбинацию"""
@@ -276,4 +304,4 @@ class ecc_editor:
         mas = precod.long_cut(long_bin)
         #ИЗМЕНИТЬ НА cutoff на следующем этапе 
         out = self.ecc_work.decoding_work(mas)
-        return precod.scotch_global(out)
+        return scotch_global(out)

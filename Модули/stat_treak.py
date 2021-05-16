@@ -1,4 +1,5 @@
 import math
+import ecc_library as e_lib
 
 #функции для подбора полинома
 def kol_fix_need(n,p):
@@ -21,7 +22,7 @@ def find_g_x(n,Nerr):
     Выход:
     Имя подходящего полинома из библиотеки
     """
-    for i in lib_g_x.keys():
+    for i in e_lib.lib_g_x.keys():
         chek = i.split("_")
         if int(chek[0]) == n:
             if int(chek[2]) >= Nerr:
@@ -36,7 +37,7 @@ def selection_g_x(p):
     lib_g_x[out] - определение полинома в 10-тичном формате
     """
     pol = []
-    for x in long_array:
+    for x in e_lib.long_array:
         vrem = find_g_x(x,kol_fix_need(x,p) + 1)#тут +1 это запас под секрет! 
         if vrem != None:
             pol.append(vrem)
@@ -52,7 +53,7 @@ def selection_g_x(p):
             max_speed = real_sped
             out = i
             
-    return out,lib_g_x[out]
+    return out,e_lib.lib_g_x[out]
  
     
     
