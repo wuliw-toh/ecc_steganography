@@ -117,7 +117,8 @@ class polinom:
     def new_pol(self,value):
         out = polinom(value.coef,self.n_long)
         return out
-
+    
+    
     
 class precoder:
 
@@ -249,3 +250,30 @@ class ecc_strem:
              
         long_pol = work_p / self.g_x
         return polinom(long_pol.main_mas[(self.n_cod - self.k_cod):],self.k_cod).main_mas
+    
+    
+class ecc_editor:
+    
+    def __init__(self,name_cod):
+        """Принимает имя кода"""
+        mas = list(map(int,name_cod.split("_"))) 
+        self.ecc_work = ecc_strem(mas[0],mas[1],mas[2])
+        self.n = mas[0]
+        self.k = mas[1]
+        self.t = mas[2]
+        
+    def cod_work(self,treak):
+        """Принимает путь к файлу"""
+        fail = FailBin(treak)
+        precod = precoder(self.k)  
+        mas_word = precod.long_cut(fail.read_bin())        
+        out =  self.ecc_work.coding_work(mas_word)
+        return precod.scotch_global(out)
+    
+    def decoding_work(self,long_bin):
+        """Принимает длинную кодовую комбинацию"""
+        precod = precoder(self.n)
+        mas = precod.long_cut(long_bin)
+        #ИЗМЕНИТЬ НА cutoff на следующем этапе 
+        out = self.ecc_work.decoding_work(mas)
+        return precod.scotch_global(out)
