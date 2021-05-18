@@ -53,7 +53,7 @@ class stat_config(tk.Toplevel):
 
     def __init__(self, parent):
         super().__init__(parent)
-        self.geometry("480x500")
+        #self.geometry("480x500")
         self.resizable(False,False)
         self.init_gui()
 

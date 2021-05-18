@@ -103,10 +103,71 @@ class secret_editor:
 
         return out
     
-    def mail_to_outside(case,mask):
+    def mail_to_outside(self,case,mask):
+        """Извлекает сообщение по маске
+        Вход:
+        case - сообщение из линии связи
+        mask - маска на основе секретного ключа 
+        Выход:
+        out - закодированное секретное послание 
+        """
         out = []
         for i in range(len(case)):
             if mask[i] == 1:
                 out.append(case[i])
         return np.array(out)
+    
+    def gen_mark_sequence_bin(self,size):
+        """Простой генератор марковской цепи
+        Матрица переходов = |0.5, 0.5|
+                            |0.5, 0.5|
+        """
+        out = np.zeros(size,int)
+        rand_seq = self.rand_dop.rand_with_memory(size)
+        #первый элемент 
+        if rand_seq[0] < 0.5:
+            out[0] = 0
+        else:
+            out[0] = 1
+            
+        for i in range(1,size):
+            if rand_seq[i] > 0.5:
+                if out[i-1] == 0:
+                    out[i] = 1
+                else:
+                    out[i] = 0         
+            else:
+                out[i] = out[i-1]
+
+
+        return np.array(out)
+        
+        
+    def merge_sequences(self,case,mail,ps):
+        """Основная функия встраивания сообщения 
+        Вход:
+        case - длинная последовательность закодированного контейнера 
+        mail - длинная последовательнсоть закодированного сообщения
+        ps - вероятность искуственной ошибки
+        Выход:
+        to_link - Длинная последовательность для линии передачи 
+        """
+        mask_work = self.gen_mask(len(case),ps)
+        dop_noise = self.gen_mark_sequence_bin(sum(mask_work) - len(mail))
+        long_mail = np.concatenate((mail,dop_noise),0)
+        return self.mail_to_inside(case,long_mail,mask_work)
+    
+    
+    def separation_sequences(self,case,ps):
+        """Основная функция извлечения информации из последовательности
+        Вход:
+        case - последовательность полученная из линии связи 
+        ps - вероятность искуственной ошибки 
+        Выход:
+        out - закодированное секретное сообщение 
+        """
+        mask_work = self.gen_mask(len(case),ps)
+        return self.mail_to_outside(case,mask_work)
+        
+        
         
