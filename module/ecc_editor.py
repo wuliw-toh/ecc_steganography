@@ -298,10 +298,13 @@ class ecc_editor:
         out =  self.ecc_work.coding_work(mas_word)
         return scotch_global(out)
     
-    def decoding_work(self,long_bin):
+    def decoding_work(self,long_bin,stop_point = None,cut = False):
         """Принимает длинную кодовую комбинацию"""
         precod = precoder(self.n)
-        mas = precod.long_cut(long_bin)
-        #ИЗМЕНИТЬ НА cutoff на следующем этапе 
+        if not(cut):
+            mas = precod.long_cut(long_bin)
+        else:
+            mas = precod.long_cutoff(long_bin,stop_point)
+            
         out = self.ecc_work.decoding_work(mas)
         return scotch_global(out)

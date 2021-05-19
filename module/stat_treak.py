@@ -28,7 +28,7 @@ def find_g_x(n,Nerr):
             if int(chek[2]) >= Nerr:
                 return i
     
-def selection_g_x(p):
+def selection_g_x(p,excess = 1):
     """Функция выбора оптимального полинома
     Вход: 
     p - Вероятность ошибки 
@@ -38,7 +38,7 @@ def selection_g_x(p):
     """
     pol = []
     for x in e_lib.long_array:
-        vrem = find_g_x(x,kol_fix_need(x,p) + 1)#тут +1 это запас под секрет! 
+        vrem = find_g_x(x,kol_fix_need(x,p) + excess)#тут +1 это запас под секрет! 
         if vrem != None:
             pol.append(vrem)
     
