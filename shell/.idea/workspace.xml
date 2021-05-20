@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8c9cd31d-fc9f-4a56-92d6-0ddc160cfdf9" name="Default Changelist" comment="Gui UPD">
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module/ecc_editor.py" beforeDir="false" afterPath="$PROJECT_DIR$/../module/ecc_editor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../module/stat_treak.py" beforeDir="false" afterPath="$PROJECT_DIR$/../module/stat_treak.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notepads/data/box_out.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../notepads/data/box_out.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notepads/data/mail_out.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../notepads/data/mail_out.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notepads/method_demonstration_0.2.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../notepads/method_demonstration_0.2.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +27,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../module" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../module/ecc_editor.py" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="two.files.diff.last.used.folder" value="$PROJECT_DIR$/../module" />
   </component>

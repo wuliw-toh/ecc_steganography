@@ -260,23 +260,38 @@ class ecc_strem:
         Вход - массив коэфицентов длинной N
         Выход - полином длинной K
         """
+        f_log = open("/home/wuliw/Рабочий стол/ВКР/Logs/log_ecc_decoding.txt","w")
+        f_log.write("Старт декодирования\n")
         n = 0
         work_p = polinom(value,self.n_cod)
+        f_log.write(str(work_p.main_mas)+ "\n")
         ost = work_p % self.g_x
-        
+        f_log.write(str(ost.main_mas)+ "\n")
+        f_log.write("Проверка остатка и старт цикла\n")
         if sum(ost.main_mas) != 0:       
             while self.t_cod < sum(ost.main_mas):
                 n += 1
                 work_p = work_p << 1
+                f_log.write("p"+str(work_p.main_mas)+ "\n")
                 ost = work_p % self.g_x
+                f_log.write("o"+str(ost.main_mas)+ "\n")
                 
-                if n > self.n_cod: 
+                if n > self.n_cod:
+                    f_log.write(f"Выполнение выхода при n = {n}\n")
                     break
-                
+            f_log.write("конец цикла\n")
             work_p = work_p + ost
+            f_log.write("полином после сложения\n")
+            f_log.write(str(work_p.main_mas)+ "\n")
             work_p = work_p >> n
-             
+            f_log.write("полином после сдвига\n")
+            f_log.write(str(work_p.main_mas)+ "\n")
+
         long_pol = work_p / self.g_x
+        f_log.write("итог\n")
+        f_log.write(str(long_pol.main_mas) + "\n")
+
+        f_log.close()
         return polinom(long_pol.main_mas[(self.n_cod - self.k_cod):],self.k_cod).main_mas
     
     

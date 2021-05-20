@@ -12,7 +12,7 @@ def kol_fix_need(n,p):
     """
     M = p * n
     std = math.sqrt(p * n * (1-p))
-    return M + 6*std
+    return M + 3*std
 
 def find_g_x(n,Nerr):
     """Поиск полиномов в библиотеке 
