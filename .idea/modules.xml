@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/shell.iml" filepath="$PROJECT_DIR$/.idea/shell.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ecc_steganography.iml" filepath="$PROJECT_DIR$/.idea/ecc_steganography.iml" />
     </modules>
   </component>
 </project>

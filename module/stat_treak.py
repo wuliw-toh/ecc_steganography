@@ -1,5 +1,7 @@
 import math
-import ecc_library as e_lib
+#import ecc_library as e_lib
+from module import ecc_library as e_lib 
+
 
 #функции для подбора полинома
 def kol_fix_need(n,p):

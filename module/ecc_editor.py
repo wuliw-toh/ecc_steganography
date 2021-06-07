@@ -1,5 +1,6 @@
 import numpy as np
-import ecc_library as e_lib
+from module import ecc_library as e_lib
+
 
 #общие функции
 def dec_to_bin(value):
