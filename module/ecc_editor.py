@@ -196,7 +196,7 @@ class precoder:
         long_mas = self.long_cut(mas)
         out = []
         for i in long_mas:
-            if (sum(i == chek_stop)/self.t) > 0.95:
+            if (sum(i == chek_stop)/self.t) > 0.98:
                 break
             out.append(i)
         return out
